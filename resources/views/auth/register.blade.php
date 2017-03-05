@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Apellido</label>
+                            <label for="lastname" class="col-md-4 control-label">Apellido</label>
                             <div class="col-md-6">
                                 <input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required autofocus>
                                 @if ($errors->has('lastname'))
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('Genre') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Genero</label>
+                            <label for="Genre" class="col-md-4 control-label">Genero</label>
                             <div class="col-md-6">
                                 <select name="Genre" id="" class="form-control">
                                     <option value="">Seleccione</option>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('date_birth') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Fecha de Nacimiento</label>
+                            <label for="date_birth" class="col-md-4 control-label">Fecha de Nacimiento</label>
                             <div class="col-md-6">
                                 <input id="date_birth" type="text" class="form-control" name="date_birth" value="{{ old('date_birth') }}" required autofocus>
                                 @if ($errors->has('date_birth'))
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('nickname') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Alias o nickname</label>
+                            <label for="alias" class="col-md-4 control-label">Alias o nickname</label>
                             <div class="col-md-6">
                                 <input id="nickname" type="text" class="form-control" name="nickname" value="{{ old('nickname') }}" required autofocus>
                                 @if ($errors->has('nickname'))
@@ -93,6 +93,17 @@
                             <label for="password-confirm" class="col-md-4 control-label">Confirmar Password</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Grupos" class="col-md-4 control-label">Grupos</label>
+                            <div class="col-md-6">
+                                <select name="Group" id="" class="form-control">
+                                    <option value="">Elija un grupo</option>
+                                    @foreach($Groups as $group)
+                                        <option value="{{$group->id}}">{{$group->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
