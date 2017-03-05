@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@section('styles')
+ <link href="{{ asset('css/formValidation.min.css') }}" rel="stylesheet">
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+@endsection
 @section('content')
 <div class="container">
     @if (session('Success'))
@@ -11,7 +15,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Registro de Usuarios</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('Register') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('Register') }}" id="FormRegister">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Nombre</label>
@@ -124,4 +128,10 @@
         </div>
     </div>
 </div>
+@endsection
+@section('Scripts')
+<script src="{{asset('js/formValidation/formValidation.min.js')}}"></script>
+<script src="{{asset('js/formValidation/bootstrap.min.js')}}"></script>
+<script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="{{asset('js/ValidationRegister.js')}}"></script>
 @endsection
