@@ -15,7 +15,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Registro de Usuarios</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('Register') }}" id="FormRegister">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('Register') }}" id="FormRegister" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Nombre</label>
@@ -113,6 +113,17 @@
                                         <option value="{{$group->id}}">{{$group->name}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('url_photo_profile') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Foto de Perfil</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="url_photo_profile" />
+                                @if ($errors->has('url_photo_profile'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('url_photo_profile') }}</strong>
+                                </span>
+                                @endif
                             </div>
                         </div>
                         <div class="form-group">

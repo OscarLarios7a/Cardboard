@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Groups;
+use App\User_Group;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -61,7 +62,13 @@ class RegisterController extends Controller
      */
     protected function create(request $request)
     {
-       
+      
+       $file = $request->file('url_photo_profile');
+       $nombre = $file->getClientOriginalName();
+
+
+       \Storage::disk('local')->put($nombre,  \File::get($file));
+
         $User = New User;
         $User->name = $request['name'];
         $User->lastname = $request['lastname'];
@@ -69,8 +76,18 @@ class RegisterController extends Controller
         $User->date_birth = $request['date_birth'];
         $User->nickname = $request['nickname'];
         $User->email = $request['email'];
+        $User->url_photo_profile = '/storage/'.$nombre;
         $User->password = bcrypt($request['password']);
         $User->save();
+        
+        
+
+        $UserGroup = New User_Group;
+        $UserGroup->user_id = $User->id;
+        $UserGroup->Group_id = $request['Group'];
+        $UserGroup->save();
+
+
 
         return back()->with('Success','Registro Exitoso');
 
