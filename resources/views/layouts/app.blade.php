@@ -61,7 +61,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="">Mi perfil</a></li>
+                                    <li><a href="{{url('/Profile')}}">Mi perfil</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

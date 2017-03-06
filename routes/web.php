@@ -20,4 +20,7 @@ Auth::routes();
 Route::get('/Register','Auth\RegisterController@index');
 Route::post('/Register','Auth\RegisterController@create');
 
+Route::post('UpdateUserProfile','HomeController@UpdateUserProfile');
+Route::post('AditionalInfo','HomeController@AditionalInfo');
+Route::get('/Profile','HomeController@MyProfile');
 Route::get('/home', 'HomeController@index');
