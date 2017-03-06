@@ -27,6 +27,7 @@ Route::get('/Profile','HomeController@MyProfile');
 Route::get('/home', 'HomeController@index');
 /*Fin de perfil de Usuario Registrado*/
 /*Post del Usuario*/
+Route::post('DeletePost','PostController@destroy');
 Route::post('Comments','PostController@SaveComments');
 Route::post('updatePost','PostController@update');
 Route::Resource('Post','PostController');
