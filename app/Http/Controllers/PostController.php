@@ -7,6 +7,7 @@ use App\Post;
 use App\UserPost;
 use App\GroupPost;
 use DB;
+use App\Comments;
 class PostController extends Controller
 {
     /**
@@ -84,7 +85,20 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $Post = DB::table('Post')
+        ->join('User_Post','User_post.post_id','=','Post.id')
+        ->join('users','users.id','=','User_Post.user_id')
+        ->join('Categories','Categories.id','=','Post.Category_id')
+        ->select('Post.id as idPost','Post.TitlePost','Post.InfoPost','Post.Imgpost','Post.created_at','users.url_photo_profile','users.nickname','Categories.name')
+        ->where('Post.id','=', $id)
+        ->first();
+        $Comments = DB::table('Comments')
+        ->join('users','users.id','=','Comments.user_id')
+        ->select('Comments.Comment','Comments.created_at','users.nickname')
+        ->where('Comments.post_id','=',$id)
+        ->get();
+       
+        return view('SinglePost',['InfoPost' => $Post,'Comments' => $Comments]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -99,6 +113,17 @@ class PostController extends Controller
         //Corregir este select para poder cargar la categoria elejida
         $InfoPost = Post::where('id',$id)->firstOrFail();
         return view('EditPost',['Categories'=>$Categories,'InfoPost'=>$InfoPost]);
+    }
+    public function SaveComments(request $request)
+    {
+        //dd($request->all());
+        $Comments = New Comments;
+        $Comments->user_id = Auth::user()->id;
+        $Comments->post_Id = $request['idPost'];
+        $Comments->Comment = $request['Comments'];
+        $Comments->save();
+
+        return back()->with('Success','Comentario añadido con exito');
     }
     /**
      * Update the specified resource in storage.

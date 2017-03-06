@@ -31,14 +31,20 @@ class HomeController extends Controller
     {
         $GroupUser = DB::table('Groups')
         ->join('User_group','Groups.id','=','User_group.Group_id')
+        ->select('Groups.id as idGroup','Groups.name')
         ->where('User_group.user_id','=',Auth::user()->id)
         ->first();
+       
         $Categories = Categories::all();
         $Post = DB::table('Post')
         ->join('Group_Post','Post.id','=','Group_Post.post_id')
-        ->select('Post.*')
-        ->where('Group_Post.group_id','=',$GroupUser->id)
+        ->join('Categories','Post.Category_id','=','Categories.id')
+        ->join('User_Post','Post.id','=','User_Post.post_id')
+        ->join('Users','Users.id','=','User_Post.user_id')
+        ->select('Post.*','Users.nickname','Categories.name')
+        ->where('Group_Post.group_id','=',$GroupUser->idGroup)
         ->get();
+       // dd($Post);
         return view('home',['NameGroup' => $GroupUser->name,'Categories'=>$Categories,'AllPost'=>$Post]);
     }
     public function MyProfile()
