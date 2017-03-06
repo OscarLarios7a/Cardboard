@@ -73,7 +73,6 @@ class RegisterController extends Controller
         $User->name = $request['name'];
         $User->lastname = $request['lastname'];
         $User->Genre = $request['Genre'];
-        $User->date_birth = $request['date_birth'];
         $User->nickname = $request['nickname'];
         $User->email = $request['email'];
         $User->url_photo_profile = '/storage/'.$nombre;

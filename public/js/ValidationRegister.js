@@ -40,17 +40,6 @@ $(document).ready(function() {
                         }
                     }
                 },
-                date_birth: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The date of birth is required'
-                        },
-                        date: {
-                            format: 'YYYY/MM/DD',
-                            message: 'The date of birth is not valid'
-                        }
-                    }
-                },
                 nickname: {
                     validators: {
                         notEmpty: {
@@ -119,7 +108,7 @@ $(document).ready(function() {
             yearRange: "1901:2017",
             onSelect: function(date, inst) {
                 /* Revalidate the field when choosing it from the datepicker */
-                $('#FormRegister').formValidation('revalidateField', 'date_birth');
+                //$('#FormRegister').formValidation('revalidateField', 'date_birth');
             }
         });
 });

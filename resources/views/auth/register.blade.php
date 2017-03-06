@@ -54,17 +54,6 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('date_birth') ? ' has-error' : '' }}">
-                            <label for="date_birth" class="col-md-4 control-label">Fecha de Nacimiento</label>
-                            <div class="col-md-6">
-                                <input id="date_birth" type="text" class="form-control" name="date_birth" value="{{ old('date_birth') }}" required autofocus>
-                                @if ($errors->has('date_birth'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('date_birth') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
                         <div class="form-group{{ $errors->has('nickname') ? ' has-error' : '' }}">
                             <label for="alias" class="col-md-4 control-label">Alias o nickname</label>
                             <div class="col-md-6">

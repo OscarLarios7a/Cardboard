@@ -61,7 +61,6 @@ class HomeController extends Controller
         $UpdateUser->name = $request['name'];
         $UpdateUser->lastname = $request['lastname'];
         $UpdateUser->Genre = $request['Genre'];
-        $UpdateUser->date_birth = $request['date_birth'];
         $UpdateUser->nickname = $request['nickname'];
         if($file != '')
         {
@@ -86,12 +85,16 @@ class HomeController extends Controller
             $AdditionalInfo->user_id = Auth::user()->id;
             $AdditionalInfo->save();
         }
-        foreach ($request['idAdditionalInfo'] as $key => $value) {
-            $AdditionalInfoUpdate =InfoAdditionalUser::where('id',$value)->firstOrFail();
-            $AdditionalInfoUpdate->PersonalRow = $request['title_U'][$key];
-            $AdditionalInfoUpdate->Description = $request['description_U'][$key];
-            $AdditionalInfoUpdate->save();
+        if(count($request['idAdditionalInfo']) != 0)
+        {
+            foreach ($request['idAdditionalInfo'] as $key => $value) {
+                $AdditionalInfoUpdate =InfoAdditionalUser::where('id',$value)->firstOrFail();
+                $AdditionalInfoUpdate->PersonalRow = $request['title_U'][$key];
+                $AdditionalInfoUpdate->Description = $request['description_U'][$key];
+                $AdditionalInfoUpdate->save();
+            }  
         }
+        
        
         return back()->with('Success','Datos Actualizados con exito');
 

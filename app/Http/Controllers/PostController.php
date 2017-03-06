@@ -152,6 +152,7 @@ class PostController extends Controller
             $Post->Imgpost = '/storage/'.$nombre;
         }
         $Post->save();
+        return back()->with('Success','Post Actualizado con exito');
     }
     /**
      * Remove the specified resource from storage.

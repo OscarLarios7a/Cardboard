@@ -28,10 +28,6 @@
                                     <input type="text" class="form-control" name="lastname" value="{{$DataProfile->lastname}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="date_birth">Fecha Nacimiento</label><br>
-                                    <input type="text" class="form-control" name="date_birth" value="{{$DataProfile->date_birth}}">
-                                </div>
-                                <div class="form-group">
                                     <label for="Genre">Genero</label><br>
                                     <select name="Genre" class="form-control">
                                         <option value="">Seleccione</option>
