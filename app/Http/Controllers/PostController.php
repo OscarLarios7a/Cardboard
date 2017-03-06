@@ -103,7 +103,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        //dd($id);
+        $Categories = Categories::all();
+        $InfoPost = Post::where('id',$id)->firstOrFail();
+        return view('EditPost',['Categories'=>$Categories,'InfoPost'=>$InfoPost]);
     }
 
     /**
