@@ -7,16 +7,8 @@
                 <div class="panel-heading">Bienvenido al grupo {{$NameGroup}}</div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-12">
                             <a href="{{url('Post/create')}}" class="btn btn-primary">Crear Nuevo Post</a>
-                        </div>
-                        <div class="col-md-9">
-                            <select name="Categories" id="" class="form-control">
-                                <option value="">Elegir Categoria para ver post</option>
-                                @foreach($Categories as $Category)
-                                <option value="{{$Category->id}}">{{$Category->name}}</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -37,7 +29,7 @@
                                 <tbody>
                                     @if(count($AllPost) != 0)
                                     @foreach($AllPost as $post)
-                                        <tr>
+                                        <tr class="">
                                             <td>{{$post->TitlePost}}</td>
                                             <td>{{$post->InfoPost}}</td>
                                             <td>{{$post->nickname}}</td>
