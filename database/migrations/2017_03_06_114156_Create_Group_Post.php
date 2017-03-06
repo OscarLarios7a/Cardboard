@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoryPost extends Migration
+class CreateGroupPost extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateCategoryPost extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('Category_Post');
-        Schema::create('Category_Post', function (Blueprint $table) {
+        Schema::dropIfExists('Group_Post');
+        Schema::create('Group_Post', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->unsigned();
             $table->integer('post_id')->unsigned();
+            $table->integer('group_id')->unsigned();
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('Categories')
-            ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('post_id')->references('id')->on('Post')
+            ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('Groups')
             ->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -33,11 +33,11 @@ class CreateCategoryPost extends Migration
      */
     public function down()
     {
-        Schema::table('Category_Post',function($table){
-            $table->dropForeign('category_id_foreign');
-            $table->dropColumn('category_id');
+        Schema::table('Group_Post',function($table){
             $table->dropForeign('post_id_foreign');
             $table->dropColumn('post_id');
+            $table->dropForeign('group_id_foreign');
+            $table->dropColumn('group_id');
         });
     }
 }

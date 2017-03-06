@@ -1,15 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Auth;
 use App\Categories;
 use App\Post;
 use App\UserPost;
-use App\CategoryPost;
+use App\GroupPost;
 use DB;
-
 class PostController extends Controller
 {
     /**
@@ -20,19 +17,14 @@ class PostController extends Controller
     public function index()
     {
         $AllPosts = DB::table('Post')
-        ->join('Category_Post','Post.id','=','post_id')
-        ->join('Categories','Categories.id','=','Category_Post.category_id')
         ->join('User_Post','User_post.post_id','=','Post.id')
-        ->select('Post.id','Post.TitlePost','Post.InfoPost','Categories.name')
+        ->join('Categories','Categories.id','=','Post.Category_id')
+        ->select('Post.id as idPost','Post.TitlePost','Post.InfoPost','Categories.name')
         ->where('User_post.user_id','=', Auth::user()->id)
         ->get();
-        //dd($AllPosts);
+        
         return view('PostsUser',['AllPosts'=>$AllPosts]);
-
-
-
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +36,6 @@ class PostController extends Controller
         $Categories = Categories::all();
         return view('CreatePost',['Categories'=>$Categories]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -52,14 +43,11 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //dd($request->all());
-
-        
-
+    { 
         $Post = New Post;
         $Post->TitlePost = $request['TitlePost'];
         $Post->InfoPost = $request['InfoPost'];
+
         if($request->file('Imgpost') != "")
         {
             $file = $request->file('Imgpost');
@@ -67,12 +55,19 @@ class PostController extends Controller
             \Storage::disk('local')->put($nombre,  \File::get($file)); 
             $Post->Imgpost = '/storage/'.$nombre;
         }
+        $Post->Category_id = $request['Categories'];
         $Post->save();
 
-        $CategoryPost = New CategoryPost;
-        $CategoryPost->category_id = $request['Categories'];
-        $CategoryPost->post_id = $Post->id;
-        $CategoryPost->save();
+        $GroupUser = DB::table('Groups')
+        ->join('User_group','Groups.id','=','User_group.Group_id')
+        ->select('Groups.id')
+        ->where('User_group.user_id','=',Auth::user()->id)
+        ->first();
+
+        $GroupPost = New GroupPost;
+        $GroupPost->post_id = $Post->id;
+        $GroupPost->group_id = $GroupUser->id;
+        $GroupPost->save();
 
         $UserPost = New UserPost;
         $UserPost->user_id = Auth::user()->id;
@@ -80,10 +75,7 @@ class PostController extends Controller
         $UserPost->save();
 
         return back()->with('Success','Post creado con exito');
-
-
     }
-
     /**
      * Display the specified resource.
      *
@@ -94,7 +86,6 @@ class PostController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -105,10 +96,10 @@ class PostController extends Controller
     {
         //dd($id);
         $Categories = Categories::all();
+        //Corregir este select para poder cargar la categoria elejida
         $InfoPost = Post::where('id',$id)->firstOrFail();
         return view('EditPost',['Categories'=>$Categories,'InfoPost'=>$InfoPost]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -120,7 +111,6 @@ class PostController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

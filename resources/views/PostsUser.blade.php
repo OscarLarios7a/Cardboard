@@ -25,7 +25,7 @@
                                    <td>{{$post->name}}</td>
                                    <td>
                                     <div class="btn-group">
-                                        <a href="{{url('Post/'.$post->id.'/edit')}}" class="btn btn-primary">Editar</a>
+                                        <a href="{{url('Post/'.$post->idPost.'/edit')}}" class="btn btn-primary">Editar</a>
                                         <a href="#" class="btn btn-danger">Eliminar</a>
                                        
                                     </div>

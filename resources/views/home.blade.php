@@ -15,8 +15,14 @@
                         <div class="col-md-9">
                             <select name="Categories" id="" class="form-control">
                                 <option value="">Elegir Categoria para ver post</option>
+                                @foreach($Categories as $Category)
+                                <option value="{{$Category->id}}">{{$Category->name}}</option>
+                                @endforeach
                             </select>
                         </div>
+                    </div>
+                    <div class="row">
+                        
                     </div>
                 </div>
             </div>

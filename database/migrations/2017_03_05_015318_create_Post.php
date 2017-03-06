@@ -19,8 +19,11 @@ class CreatePost extends Migration
             $table->string('TitlePost');
             $table->string('InfoPost');
             $table->string('Imgpost');
+            $table->integer('Category_id')->unsigned();
             $table->timestamps();
            
+            $table->foreign('Category_id')->references('id')->on('Categories')
+            ->onUpdate('cascade')->onDelete('cascade');
 
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use App\Groups;
+use App\Categories;
 use DB;
 use App\InfoAdditionalUser;
 
@@ -32,7 +33,13 @@ class HomeController extends Controller
         ->join('User_group','Groups.id','=','User_group.Group_id')
         ->where('User_group.user_id','=',Auth::user()->id)
         ->first();
-        return view('home',['NameGroup' => $GroupUser->name]);
+        $Categories = Categories::all();
+        $Post = DB::table('Post')
+        ->join('Group_Post','Post.id','=','Group_Post.post_id')
+        ->select('Post.*')
+        ->where('Group_Post.group_id','=',$GroupUser->id)
+        ->get();
+        return view('home',['NameGroup' => $GroupUser->name,'Categories'=>$Categories,'AllPost'=>$Post]);
     }
     public function MyProfile()
     {
