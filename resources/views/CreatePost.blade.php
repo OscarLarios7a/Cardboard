@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+<link href="{{ asset('css/formValidation.min.css') }}" rel="stylesheet">
+@endsection
 @section('content')
 <div class="container">
     @if (session('Success'))
@@ -44,4 +47,62 @@
         </div>
     </div>
 </div>
+@endsection
+@section('Scripts')
+<script src="{{asset('js/formValidation/formValidation.min.js')}}"></script>
+<script src="{{asset('js/formValidation/bootstrap.min.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('#CreatePost').formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                TitlePost: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The title is required'
+                        },
+                        stringLength: {
+                            max: 200,
+                            message: 'The title must be less than 200 characters long'
+                        }
+                    }
+                },
+                InfoPost: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The title is required'
+                        },
+                        stringLength: {
+                            max: 200,
+                            message: 'The title must be less than 200 characters long'
+                        }
+                    }
+                },
+                Categories: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The title is required'
+                        },
+                        stringLength: {
+                            max: 200,
+                            message: 'The title must be less than 200 characters long'
+                        }
+                    }
+                },
+            }
+        }).on('err.field.fv', function(e, data) {
+            // $(e.target)  --> The field element
+            // data.fv      --> The FormValidation instance
+            // data.field   --> The field name
+            // data.element --> The field element
+            // Hide the messages
+            data.element.data('fv.messages').find('.help-block[data-fv-for="' + data.field + '"]').hide();
+        })
+    });
+</script>
 @endsection

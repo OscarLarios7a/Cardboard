@@ -81,6 +81,9 @@ $(document).ready(function() {
                 $('#FormRegister').formValidation('revalidateField', 'date_birth');
             }
         });
+
+
+        
     var titleValidators = {
             row: '.col-md-4', // The title is placed inside a <div class="col-xs-4"> element
             validators: {

@@ -8,6 +8,7 @@ use App\Categories;
 use App\Post;
 use App\UserPost;
 use App\CategoryPost;
+use DB;
 
 class PostController extends Controller
 {
@@ -18,7 +19,17 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $AllPosts = DB::table('Post')
+        ->join('Category_Post','Post.id','=','post_id')
+        ->join('Categories','Categories.id','=','Category_Post.category_id')
+        ->join('User_Post','User_post.post_id','=','Post.id')
+        ->select('Post.id','Post.TitlePost','Post.InfoPost','Categories.name')
+        ->where('User_post.user_id','=', Auth::user()->id)
+        ->get();
+        //dd($AllPosts);
+        return view('PostsUser',['AllPosts'=>$AllPosts]);
+
+
 
     }
 
@@ -43,14 +54,19 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
-        $file = $request->file('Imgpost');
-        $nombre = $file->getClientOriginalName();
-        \Storage::disk('local')->put($nombre,  \File::get($file));
+
+        
 
         $Post = New Post;
         $Post->TitlePost = $request['TitlePost'];
         $Post->InfoPost = $request['InfoPost'];
-        $Post->Imgpost = '/storage/'.$nombre;
+        if($request->file('Imgpost') != "")
+        {
+            $file = $request->file('Imgpost');
+            $nombre = $file->getClientOriginalName();
+            \Storage::disk('local')->put($nombre,  \File::get($file)); 
+            $Post->Imgpost = '/storage/'.$nombre;
+        }
         $Post->save();
 
         $CategoryPost = New CategoryPost;
