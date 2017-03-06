@@ -28,5 +28,6 @@ Route::get('/home', 'HomeController@index');
 /*Fin de perfil de Usuario Registrado*/
 /*Post del Usuario*/
 Route::post('Comments','PostController@SaveComments');
+Route::post('updatePost','PostController@update');
 Route::Resource('Post','PostController');
 /*Fin de Post del Usuario*/

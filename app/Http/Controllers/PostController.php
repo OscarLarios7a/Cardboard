@@ -110,8 +110,9 @@ class PostController extends Controller
     {
         //dd($id);
         $Categories = Categories::all();
-        //Corregir este select para poder cargar la categoria elejida
+        
         $InfoPost = Post::where('id',$id)->firstOrFail();
+
         return view('EditPost',['Categories'=>$Categories,'InfoPost'=>$InfoPost]);
     }
     public function SaveComments(request $request)
@@ -132,9 +133,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        //dd($request->all());
+        $Post = Post::where('id',$request['idPost'])->firstOrFail();
+        $Post->TitlePost = $request['TitlePost'];
+        $Post->InfoPost = $request['InfoPost'];
+        $Post->Category_id =$request['Categories'];
+        if($request->file('Imgpost') != "")
+        {
+            $file = $request->file('Imgpost');
+            $nombre = $file->getClientOriginalName();
+            \Storage::disk('local')->put($nombre,  \File::get($file)); 
+            $Post->Imgpost = '/storage/'.$nombre;
+        }
+        $Post->save();
     }
     /**
      * Remove the specified resource from storage.
