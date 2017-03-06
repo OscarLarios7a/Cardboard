@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Categories;
+use App\Post;
+use App\UserPost;
+use App\CategoryPost;
 
 class PostController extends Controller
 {
@@ -26,7 +30,8 @@ class PostController extends Controller
     public function create()
     {
         //dd(Auth::user()->id);
-        return view('CreatePost');
+        $Categories = Categories::all();
+        return view('CreatePost',['Categories'=>$Categories]);
     }
 
     /**
@@ -37,7 +42,30 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $file = $request->file('Imgpost');
+        $nombre = $file->getClientOriginalName();
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+
+        $Post = New Post;
+        $Post->TitlePost = $request['TitlePost'];
+        $Post->InfoPost = $request['InfoPost'];
+        $Post->Imgpost = '/storage/'.$nombre;
+        $Post->save();
+
+        $CategoryPost = New CategoryPost;
+        $CategoryPost->category_id = $request['Categories'];
+        $CategoryPost->post_id = $Post->id;
+        $CategoryPost->save();
+
+        $UserPost = New UserPost;
+        $UserPost->user_id = Auth::user()->id;
+        $UserPost->post_id = $Post->id;
+        $UserPost->save();
+
+        return back()->with('Success','Post creado con exito');
+
+
     }
 
     /**
